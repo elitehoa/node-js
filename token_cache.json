@@ -1,6 +1,6 @@
 {
-  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWRtaW5AaWNtcy5jb20iLCJzdWIiOiJhZG1pbkBpY21zLmNvbSIsImlhdCI6MTc2MjMyNDk2MywiZXhwIjoxNzYyMzI4NTYzfQ.f8-phnuzxf6ecUDdiQZP7rFwJePkdQBrYdHMjRZHQTk",
-  "expiresAt": 1762328563000,
-  "fetchedAt": 1762324963752,
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJuYW1lIjoiYWRtaW5AaWNtcy5jb20iLCJzdWIiOiJhZG1pbkBpY21zLmNvbSIsImlhdCI6MTc2OTc2OTM5NCwiZXhwIjoxNzY5NzcyOTk0fQ.LK8f8HF2HNI7Br6vRIpkKxD_HrLdpeDRtCWwIzLhzUA",
+  "expiresAt": 1769772994000,
+  "fetchedAt": 1769769395193,
   "ENV": "dev"
 }
