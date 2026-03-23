@@ -19,7 +19,15 @@ const LOGIN_URL = `${BASE_URL}${process.env.LOGIN_PATH}`;
 const PRE_SIGN_PATH = `${BASE_URL}${process.env.PRE_SIGN_PATH}`;
 const CONTENT_PATH = `${BASE_URL}${process.env.CONTENT_PATH}`;
 const TOKEN_CACHE = process.env.TOKEN_CACHE || "./token_cache.json";
-const LESSON_DIR = process.env.LESSON_DIR || "./html_syllabus";
+// const LESSON_DIR = process.env.LESSON_DIR || "./html_syllabus";
+if (!process.env.LESSON_DIRS) {
+  throw new Error("❌ Missing LESSON_DIRS in .env");
+}
+
+const LESSON_DIRS = process.env.LESSON_DIRS
+  .split(",")
+  .map((d) => d.trim())
+  .filter(Boolean);
 
 console.log(`🌍 Environment: ${ENV.toUpperCase()} (${BASE_URL})`);
 
@@ -163,8 +171,28 @@ async function main() {
   const token = await getToken();
   console.log("🔐 Using token:", token.slice(0, 30) + "....");
 
-  const files = fs.readdirSync(LESSON_DIR).filter((f) => f.endsWith(".html"));
-  console.log(`📦 Found ${files.length} HTML lessons`);
+  // const files = fs.readdirSync(LESSON_DIR).filter((f) => f.endsWith(".html"));
+  // console.log(`📦 Found ${files.length} HTML lessons`);
+
+  // for (const file of files) {
+  //   const filePath = path.join(LESSON_DIR, file);
+  //   let html = fs.readFileSync(filePath, "utf8");
+  //   html = wrapHtmlIfNeeded(html);
+
+  //   const name = path.basename(file, ".html");
+  for (const LESSON_DIR of LESSON_DIRS) {
+  console.log(`\n📂 Processing folder: ${LESSON_DIR}`);
+
+  if (!fs.existsSync(LESSON_DIR)) {
+    console.warn(`⚠️ Folder not found: ${LESSON_DIR}`);
+    continue;
+  }
+
+  const files = fs
+    .readdirSync(LESSON_DIR)
+    .filter((f) => f.endsWith(".html"));
+
+  console.log(`📦 Found ${files.length} HTML lessons in ${LESSON_DIR}`);
 
   for (const file of files) {
     const filePath = path.join(LESSON_DIR, file);
@@ -172,6 +200,7 @@ async function main() {
     html = wrapHtmlIfNeeded(html);
 
     const name = path.basename(file, ".html");
+
     try {
       console.log(`🚀 Processing: ${name}`);
       const preSign = await getPreSignS3(name, token);
@@ -190,10 +219,11 @@ async function main() {
       }
     }
 
-    await new Promise((r) => setTimeout(r, 1000)); // tránh rate limit
+    await new Promise((r) => setTimeout(r, 500)); // tránh rate limit
   }
-
+  }
   console.log("✅ All lessons uploaded successfully!");
+
 }
 
 // ======================================================
